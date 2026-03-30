@@ -1,3 +1,5 @@
+import { Button } from './components/ui/button'
+
 function App(): React.JSX.Element {
   const ipcHandle = (): void => window.electron.ipcRenderer.send('ping')
 
@@ -5,6 +7,7 @@ function App(): React.JSX.Element {
     <div>
       <div>many such cases.</div>
       <div>get the cat.</div>
+      <Button>aaaaaaaaaaaaaaaaaa</Button>
     </div>
   )
 }
