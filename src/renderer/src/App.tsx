@@ -1,13 +1,19 @@
+import { useState } from 'react'
 import { Button } from './components/ui/button'
 
 function App(): React.JSX.Element {
-  const ipcHandle = (): void => window.electron.ipcRenderer.send('ping')
+  const [card, setCard] = useState<unknown>(null)
+
+  const handleClick = async () => {
+    const result = await window.api.getCardById(13839120)
+    console.log(result)
+    setCard(result)
+  }
 
   return (
     <div>
-      <div>many such cases.</div>
-      <div>get the cat.</div>
-      <Button>aaaaaaaaaaaaaaaaaa</Button>
+      <Button onClick={handleClick}>Get card</Button>
+      {card && <pre>{JSON.stringify(card, null, 2)}</pre>}
     </div>
   )
 }

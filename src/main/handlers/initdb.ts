@@ -1,38 +1,43 @@
-import { sql } from 'drizzle-orm'
-import { db } from '../db'
-import { cards } from '../db/schema'
+import db from '../db'
+import { initSchema } from '../db/schema'
 
 export const initDb = async () => {
-  const count = db.get<{ count: number }>(sql`SELECT COUNT(*) as count FROM cards`)
-  if (count?.count === 0) {
-    const res = await fetch('https://db.ygoprodeck.com/api/v7/cardinfo.php')
-    const json = await res.json()
+  initSchema()
 
-    console.log('tes')
+  const { count } = db.prepare('SELECT COUNT(*) as count FROM cards').get() as { count: number }
+  if (count > 0) return
 
-    db.insert(cards)
-      .values(
-        json.map(
-          (card) =>
-            ({
-              id: card.id,
-              name: card.name,
-              type: card.type,
-              humanReadableCardType: card.humanReadableCardType ?? null,
-              desc: card.desc,
-              race: card.race,
-              archetype: card.archetype ?? null,
-              atk: card.atk ?? null,
-              def: card.def ?? null,
-              level: card.level ?? null,
-              attribute: card.attribute ?? null,
-              linkval: card.linkval ?? null,
-              imageUrl: card.card_images[0].image_url,
-              imageUrlSmall: card.card_images[0].image_url_small
-            }) satisfies typeof cards.$inferInsert
-        )
-      )
-      .onConflictDoNothing()
-      .run()
-  }
+  const res = await fetch('https://db.ygoprodeck.com/api/v7/cardinfo.php')
+  const json = await res.json()
+  const cards = json.data
+
+  const insert = db.prepare(`
+    INSERT OR IGNORE INTO cards
+      (id, name, type, human_readable_card_type, desc, race, archetype, atk, def, level, attribute, linkval, image_url, image_url_small)
+    VALUES
+      (@id, @name, @type, @humanReadableCardType, @desc, @race, @archetype, @atk, @def, @level, @attribute, @linkval, @imageUrl, @imageUrlSmall)
+  `)
+
+  const insertMany = db.transaction((rows) => {
+    for (const card of rows) insert.run(card)
+  })
+
+  insertMany(
+    cards.map((card: Record<string, any>) => ({
+      id: card.id,
+      name: card.name,
+      type: card.type,
+      humanReadableCardType: card.humanReadableCardType ?? null,
+      desc: card.desc,
+      race: card.race,
+      archetype: card.archetype ?? null,
+      atk: card.atk ?? null,
+      def: card.def ?? null,
+      level: card.level ?? null,
+      attribute: card.attribute ?? null,
+      linkval: card.linkval ?? null,
+      imageUrl: card.card_images[0].image_url,
+      imageUrlSmall: card.card_images[0].image_url_small
+    }))
+  )
 }
