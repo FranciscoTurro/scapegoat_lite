@@ -5,6 +5,8 @@ declare global {
     electron: ElectronAPI
     api: {
       getCardById: (id: number) => Promise<unknown>
+      getCardByName: (name: string) => Promise<unknown>
+      getAllCardNames: () => Promise<string[]>
     }
   }
 }

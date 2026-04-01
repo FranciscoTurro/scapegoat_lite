@@ -3,7 +3,9 @@ import { electronAPI } from '@electron-toolkit/preload'
 
 // Custom APIs for renderer
 const api = {
-  getCardById: (id: number) => ipcRenderer.invoke('get-card-by-id', id)
+  getCardById: (id: number) => ipcRenderer.invoke('get-card-by-id', id),
+  getCardByName: (name: string) => ipcRenderer.invoke('get-card-by-name', name),
+  getAllCardNames: (): Promise<string[]> => ipcRenderer.invoke('get-all-card-names')
 }
 
 // Use `contextBridge` APIs to expose Electron APIs to

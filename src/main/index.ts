@@ -3,7 +3,7 @@ import { join } from 'path'
 import { electronApp, optimizer, is } from '@electron-toolkit/utils'
 import icon from '../../resources/icon.png?asset'
 import { initDb } from './handlers/initdb'
-import { getCardById } from './handlers/cards'
+import { getCardById, getCardByName, getAllCardNames } from './handlers/cards'
 
 function createWindow(): void {
   // Create the browser window.
@@ -21,6 +21,7 @@ function createWindow(): void {
 
   mainWindow.on('ready-to-show', () => {
     mainWindow.show()
+    mainWindow.maximize()
   })
 
   mainWindow.webContents.setWindowOpenHandler((details) => {
@@ -54,6 +55,8 @@ app.whenReady().then(async () => {
   await initDb()
 
   ipcMain.handle('get-card-by-id', (_, id: number) => getCardById(id))
+  ipcMain.handle('get-card-by-name', (_, name: string) => getCardByName(name))
+  ipcMain.handle('get-all-card-names', () => getAllCardNames())
 
   createWindow()
 
