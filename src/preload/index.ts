@@ -5,7 +5,9 @@ import { electronAPI } from '@electron-toolkit/preload'
 const api = {
   getCardById: (id: number) => ipcRenderer.invoke('get-card-by-id', id),
   getCardByName: (name: string) => ipcRenderer.invoke('get-card-by-name', name),
-  getAllCardNames: (): Promise<string[]> => ipcRenderer.invoke('get-all-card-names')
+  getCardsByName: (name: string) => ipcRenderer.invoke('get-cards-by-name', name),
+  getAllCardNames: (): Promise<string[]> => ipcRenderer.invoke('get-all-card-names'),
+  getAllCardsBasic: (): Promise<{ name: string; type: string }[]> => ipcRenderer.invoke('get-all-cards-basic')
 }
 
 // Use `contextBridge` APIs to expose Electron APIs to
