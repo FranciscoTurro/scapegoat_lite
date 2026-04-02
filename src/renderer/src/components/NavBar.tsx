@@ -1,9 +1,10 @@
 import { Link } from '@tanstack/react-router'
-import { Moon, Sun, Settings, Home, Swords, Ban, Calculator } from 'lucide-react'
+import { Moon, Sun, Settings, Home, Swords, Ban, Calculator, Layers } from 'lucide-react'
 import { Button } from './ui/button'
 
 const NAV_LINKS = [
   { to: '/', icon: Home, label: 'Home' },
+  { to: '/combos', icon: Layers, label: 'Combos' },
   { to: '/rival-tracker', icon: Swords, label: 'Rival Tracker' },
   { to: '/negates', icon: Ban, label: 'Negates' },
   { to: '/calculator', icon: Calculator, label: 'Calculator' }

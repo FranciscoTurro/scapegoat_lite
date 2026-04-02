@@ -13,7 +13,16 @@ const api = {
   deleteDeck: (id: number) => ipcRenderer.invoke('delete-deck', id),
   getNegatesForDeck: (deckId: number) => ipcRenderer.invoke('get-negates-for-deck', deckId),
   createNegate: (targetDeckId: number, negateCardId: number, targetCardId: number, note?: string) => ipcRenderer.invoke('create-negate', targetDeckId, negateCardId, targetCardId, note),
-  deleteNegate: (id: number) => ipcRenderer.invoke('delete-negate', id)
+  deleteNegate: (id: number) => ipcRenderer.invoke('delete-negate', id),
+  getAllCombos: () => ipcRenderer.invoke('get-all-combos'),
+  createCombo: (name: string, coverCardId: number | null) => ipcRenderer.invoke('create-combo', name, coverCardId),
+  deleteCombo: (id: number) => ipcRenderer.invoke('delete-combo', id),
+  getStepsForCombo: (comboId: number) => ipcRenderer.invoke('get-steps-for-combo', comboId),
+  addComboStep: (comboId: number, cardId: number, note: string | null, linkComment: string | null, position: number) => ipcRenderer.invoke('add-combo-step', comboId, cardId, note, linkComment, position),
+  deleteComboStep: (id: number) => ipcRenderer.invoke('delete-combo-step', id),
+  updateComboStepNote: (id: number, note: string | null) => ipcRenderer.invoke('update-combo-step-note', id, note),
+  updateComboStepLink: (id: number, linkComment: string | null) => ipcRenderer.invoke('update-combo-step-link', id, linkComment),
+  reorderComboSteps: (orderedIds: number[]) => ipcRenderer.invoke('reorder-combo-steps', JSON.stringify(orderedIds))
 }
 
 // Use `contextBridge` APIs to expose Electron APIs to

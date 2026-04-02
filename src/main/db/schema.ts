@@ -32,5 +32,32 @@ export const initSchema = () => {
       target_card_id INTEGER NOT NULL REFERENCES cards(id),
       note TEXT
     );
+
+    CREATE TABLE IF NOT EXISTS combos (
+      id INTEGER PRIMARY KEY AUTOINCREMENT,
+      name TEXT NOT NULL,
+      cover_card_id INTEGER REFERENCES cards(id)
+    );
+
+    CREATE TABLE IF NOT EXISTS combo_steps (
+      id INTEGER PRIMARY KEY AUTOINCREMENT,
+      combo_id INTEGER NOT NULL REFERENCES combos(id),
+      position INTEGER NOT NULL,
+      card_id INTEGER NOT NULL REFERENCES cards(id),
+      note TEXT,
+      link_comment TEXT
+    );
   `)
+
+  // Migrations for existing installs
+  const cols = (
+    db.prepare('PRAGMA table_info(combo_steps)').all() as { name: string }[]
+  ).map((c) => c.name)
+
+  if (cols.includes('comment') && !cols.includes('note')) {
+    db.exec('ALTER TABLE combo_steps RENAME COLUMN comment TO note')
+  }
+  if (!cols.includes('link_comment')) {
+    db.exec('ALTER TABLE combo_steps ADD COLUMN link_comment TEXT')
+  }
 }

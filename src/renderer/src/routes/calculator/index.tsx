@@ -99,7 +99,7 @@ function CalculatorPage() {
     })
   }
 
-  const applyHalve = (player: 'you' | 'rival') => {
+  const applyHalve = () => {
     setRivalLP((prev) => {
       const next = Math.floor(prev / 2)
       return next
@@ -124,7 +124,7 @@ function CalculatorPage() {
           lp={rivalLP}
           onDamage={(n) => applyDamage(n)}
           onGain={(n) => applyGain(n)}
-          onHalve={() => applyHalve('rival')}
+          onHalve={() => applyHalve()}
         />
       </div>
     </div>

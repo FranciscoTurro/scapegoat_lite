@@ -5,6 +5,7 @@ import icon from '../../resources/icon.png?asset'
 import { initDb } from './handlers/initdb'
 import { getCardById, getCardByName, getCardsByName, getAllCardNames, getAllCardsBasic } from './handlers/cards'
 import { getAllDecks, createDeck, deleteDeck, getNegatesForDeck, createNegate, deleteNegate } from './handlers/negates'
+import { getAllCombos, createCombo, deleteCombo, getStepsForCombo, addComboStep, deleteComboStep, updateComboStepNote, updateComboStepLink, reorderComboSteps } from './handlers/combos'
 
 function createWindow(): void {
   // Create the browser window.
@@ -67,6 +68,16 @@ app.whenReady().then(async () => {
   ipcMain.handle('get-negates-for-deck', (_, deckId: number) => getNegatesForDeck(deckId))
   ipcMain.handle('create-negate', (_, targetDeckId: number, negateCardId: number, targetCardId: number, note?: string) => createNegate(targetDeckId, negateCardId, targetCardId, note))
   ipcMain.handle('delete-negate', (_, id: number) => deleteNegate(id))
+
+  ipcMain.handle('get-all-combos', () => getAllCombos())
+  ipcMain.handle('create-combo', (_, name: string, coverCardId: number | null) => createCombo(name, coverCardId))
+  ipcMain.handle('delete-combo', (_, id: number) => deleteCombo(id))
+  ipcMain.handle('get-steps-for-combo', (_, comboId: number) => getStepsForCombo(comboId))
+  ipcMain.handle('add-combo-step', (_, comboId: number, cardId: number, note: string | null, linkComment: string | null, position: number) => addComboStep(comboId, cardId, note, linkComment, position))
+  ipcMain.handle('delete-combo-step', (_, id: number) => deleteComboStep(id))
+  ipcMain.handle('update-combo-step-note', (_, id: number, note: string | null) => updateComboStepNote(id, note))
+  ipcMain.handle('update-combo-step-link', (_, id: number, linkComment: string | null) => updateComboStepLink(id, linkComment))
+  ipcMain.handle('reorder-combo-steps', (_, orderedIdsJson: string) => reorderComboSteps(JSON.parse(orderedIdsJson)))
 
   createWindow()
 
