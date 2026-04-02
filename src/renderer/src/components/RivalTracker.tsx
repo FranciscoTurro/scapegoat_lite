@@ -27,7 +27,7 @@ function CardBack({ onClick, onRemove }: { onClick: () => void; onRemove: () => 
         onRemove()
       }}
       title="Right-click to remove"
-      className="w-[72px] h-[105px] rounded border border-border bg-blue-950 cursor-pointer flex items-center justify-center text-blue-300 text-xl select-none hover:border-primary transition-colors shrink-0"
+      className="w-18 h-26.25 rounded border border-border bg-blue-950 cursor-pointer flex items-center justify-center text-blue-300 text-xl select-none hover:border-primary transition-colors shrink-0"
     >
       ?
     </div>
@@ -71,11 +71,9 @@ function TrackerSection({
         </Button>
       </div>
 
-      {canAdd && (
-        <CardNameInput onSelect={onAdd} placeholder="Add card…" clearOnSelect />
-      )}
+      {canAdd && <CardNameInput onSelect={onAdd} placeholder="Add card…" clearOnSelect />}
 
-      <div className="flex flex-wrap gap-2 min-h-[40px]">
+      <div className="flex flex-wrap gap-2 min-h-10">
         {cards.map((card, i) =>
           faceDown ? (
             <CardBack
@@ -94,7 +92,7 @@ function TrackerSection({
                 onRemove(i)
               }}
               title={`${card.name} — Right-click to remove`}
-              className="w-[72px] rounded cursor-pointer hover:ring-2 ring-primary transition-all shrink-0"
+              className="w-18 rounded cursor-pointer hover:ring-2 ring-primary transition-all shrink-0"
             />
           )
         )}

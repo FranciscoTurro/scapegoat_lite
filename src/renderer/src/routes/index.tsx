@@ -11,7 +11,7 @@ export const indexRoute = createRoute({
 function IndexPage() {
   return (
     <div className="flex flex-col gap-4 p-8 items-center">
-      <Link to="/route-a">
+      <Link to="/rival-tracker">
         <Button>Rival Tracker</Button>
       </Link>
       <Link to="/route-b">
