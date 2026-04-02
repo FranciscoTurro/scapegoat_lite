@@ -57,7 +57,14 @@ export function TrackerSection({
         </Button>
       </div>
 
-      {canAdd && <CardNameInput onSelect={onAdd} placeholder="Add card…" clearOnSelect />}
+      {canAdd && (
+        <CardNameInput
+          inputClassName="h-12"
+          onSelect={onAdd}
+          placeholder="Add card…"
+          clearOnSelect
+        />
+      )}
 
       <div className="flex flex-wrap gap-2 min-h-10">
         {cards.map((card, i) =>
