@@ -7,7 +7,13 @@ const api = {
   getCardByName: (name: string) => ipcRenderer.invoke('get-card-by-name', name),
   getCardsByName: (name: string) => ipcRenderer.invoke('get-cards-by-name', name),
   getAllCardNames: (): Promise<string[]> => ipcRenderer.invoke('get-all-card-names'),
-  getAllCardsBasic: (): Promise<{ name: string; type: string }[]> => ipcRenderer.invoke('get-all-cards-basic')
+  getAllCardsBasic: (): Promise<{ name: string; type: string }[]> => ipcRenderer.invoke('get-all-cards-basic'),
+  getAllDecks: () => ipcRenderer.invoke('get-all-decks'),
+  createDeck: (name: string, coverCardId: number | null) => ipcRenderer.invoke('create-deck', name, coverCardId),
+  deleteDeck: (id: number) => ipcRenderer.invoke('delete-deck', id),
+  getNegatesForDeck: (deckId: number) => ipcRenderer.invoke('get-negates-for-deck', deckId),
+  createNegate: (targetDeckId: number, negateCardId: number, targetCardId: number, note?: string) => ipcRenderer.invoke('create-negate', targetDeckId, negateCardId, targetCardId, note),
+  deleteNegate: (id: number) => ipcRenderer.invoke('delete-negate', id)
 }
 
 // Use `contextBridge` APIs to expose Electron APIs to

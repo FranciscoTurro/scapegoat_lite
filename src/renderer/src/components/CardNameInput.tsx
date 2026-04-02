@@ -1,26 +1,15 @@
 import { useState, useEffect, useRef, useCallback } from 'react'
 import { Input } from './ui/input'
+import { Badge } from './ui/badge'
 
 type CardBasic = { name: string; type: string }
 
 function TypeBadge({ type }: { type: string }) {
   if (type.includes('Spell'))
-    return (
-      <span className="text-xs px-1.5 py-0.5 rounded bg-green-500/20 text-green-400 shrink-0">
-        Spell
-      </span>
-    )
+    return <Badge variant="outline" className="border-green-500/30 bg-green-500/20 text-green-400 shrink-0">Spell</Badge>
   if (type.includes('Trap'))
-    return (
-      <span className="text-xs px-1.5 py-0.5 rounded bg-purple-500/20 text-purple-400 shrink-0">
-        Trap
-      </span>
-    )
-  return (
-    <span className="text-xs px-1.5 py-0.5 rounded bg-amber-500/20 text-amber-400 shrink-0">
-      Monster
-    </span>
-  )
+    return <Badge variant="outline" className="border-purple-500/30 bg-purple-500/20 text-purple-400 shrink-0">Trap</Badge>
+  return <Badge variant="outline" className="border-amber-500/30 bg-amber-500/20 text-amber-400 shrink-0">Monster</Badge>
 }
 
 type Props = {

@@ -1,11 +1,11 @@
 import { createRouter } from '@tanstack/react-router'
 import { rootRoute } from './routes/__root'
 import { indexRoute } from './routes/index'
-import { routeBRoute } from './routes/route-b'
 import { rivalRoute } from './routes/rival-tracker'
 import { negatesRoute } from './routes/negates'
+import { deckNegatesRoute } from './routes/negates/deck-negates'
 
-const routeTree = rootRoute.addChildren([indexRoute, rivalRoute, negatesRoute, routeBRoute])
+const routeTree = rootRoute.addChildren([indexRoute, rivalRoute, negatesRoute, deckNegatesRoute])
 
 export const router = createRouter({ routeTree })
 

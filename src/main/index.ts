@@ -4,6 +4,7 @@ import { electronApp, optimizer, is } from '@electron-toolkit/utils'
 import icon from '../../resources/icon.png?asset'
 import { initDb } from './handlers/initdb'
 import { getCardById, getCardByName, getCardsByName, getAllCardNames, getAllCardsBasic } from './handlers/cards'
+import { getAllDecks, createDeck, deleteDeck, getNegatesForDeck, createNegate, deleteNegate } from './handlers/negates'
 
 function createWindow(): void {
   // Create the browser window.
@@ -59,6 +60,13 @@ app.whenReady().then(async () => {
   ipcMain.handle('get-cards-by-name', (_, name: string) => getCardsByName(name))
   ipcMain.handle('get-all-card-names', () => getAllCardNames())
   ipcMain.handle('get-all-cards-basic', () => getAllCardsBasic())
+
+  ipcMain.handle('get-all-decks', () => getAllDecks())
+  ipcMain.handle('create-deck', (_, name: string, coverCardId: number | null) => createDeck(name, coverCardId))
+  ipcMain.handle('delete-deck', (_, id: number) => deleteDeck(id))
+  ipcMain.handle('get-negates-for-deck', (_, deckId: number) => getNegatesForDeck(deckId))
+  ipcMain.handle('create-negate', (_, targetDeckId: number, negateCardId: number, targetCardId: number, note?: string) => createNegate(targetDeckId, negateCardId, targetCardId, note))
+  ipcMain.handle('delete-negate', (_, id: number) => deleteNegate(id))
 
   createWindow()
 

@@ -5,7 +5,7 @@ import { Button } from './ui/button'
 const NAV_LINKS = [
   { to: '/', icon: Home, label: 'Home' },
   { to: '/rival-tracker', icon: Swords, label: 'Rival Tracker' },
-  { to: '/negates', icon: Ban, label: 'Negates' },
+  { to: '/negates', icon: Ban, label: 'Negates' }
 ] as const
 
 export function NavBar({ dark, toggleDark }: { dark: boolean; toggleDark: () => void }) {
@@ -15,11 +15,7 @@ export function NavBar({ dark, toggleDark }: { dark: boolean; toggleDark: () => 
         {NAV_LINKS.map(({ to, icon: Icon, label }) => (
           <Link key={to} to={to}>
             {({ isActive }) => (
-              <Button
-                variant={isActive ? 'secondary' : 'ghost'}
-                size="icon-lg"
-                title={label}
-              >
+              <Button variant={isActive ? 'secondary' : 'ghost'} size="icon-lg" title={label}>
                 <Icon />
               </Button>
             )}
