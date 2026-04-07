@@ -1,7 +1,6 @@
 import { useState } from 'react'
 import { Settings, Moon, Sun } from 'lucide-react'
 import { Button } from './ui/button'
-import { Input } from './ui/input'
 import { Separator } from './ui/separator'
 import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogTrigger } from './ui/dialog'
 import { useSettings } from '../context/SettingsContext'
@@ -13,34 +12,14 @@ export function SettingsDialog() {
   const [open, setOpen] = useState(false)
   const [syncing, setSyncing] = useState(false)
   const [syncError, setSyncError] = useState<string | null>(null)
-  const [customLP, setCustomLP] = useState('')
-  const [customMaxSet, setCustomMaxSet] = useState('')
 
-  const isPreset = LP_PRESETS.includes(settings.startingLP as (typeof LP_PRESETS)[number])
   const MAX_SET_PRESETS = [3, 5] as const
-  const isMaxSetPreset = MAX_SET_PRESETS.includes(
-    settings.maxSetCards as (typeof MAX_SET_PRESETS)[number]
-  )
 
   const handleOpen = (val: boolean) => {
     if (val) {
-      setCustomLP(isPreset ? '' : String(settings.startingLP))
-      setCustomMaxSet(isMaxSetPreset ? '' : String(settings.maxSetCards))
       setSyncError(null)
     }
     setOpen(val)
-  }
-
-  const handleCustomLP = (val: string) => {
-    setCustomLP(val)
-    const n = parseInt(val, 10)
-    if (!isNaN(n) && n > 0) setSettings({ startingLP: n })
-  }
-
-  const handleCustomMaxSet = (val: string) => {
-    setCustomMaxSet(val)
-    const n = parseInt(val, 10)
-    if (!isNaN(n) && n > 0) setSettings({ maxSetCards: n })
   }
 
   const handleSync = async () => {
@@ -111,31 +90,13 @@ export function SettingsDialog() {
                   variant={settings.startingLP === preset ? 'default' : 'outline'}
                   size="sm"
                   onClick={() => {
-                    setCustomLP('')
                     setSettings({ startingLP: preset })
                   }}
                 >
                   {preset.toLocaleString()}
                 </Button>
               ))}
-              <Button
-                variant={!isPreset ? 'default' : 'outline'}
-                size="sm"
-                onClick={() => setCustomLP(isPreset ? '' : String(settings.startingLP))}
-              >
-                Custom
-              </Button>
             </div>
-            {(!isPreset || customLP !== '') && (
-              <Input
-                type="number"
-                placeholder="Enter LP amount"
-                value={customLP}
-                onChange={(e) => handleCustomLP(e.target.value)}
-                min={1}
-                autoFocus
-              />
-            )}
           </div>
 
           <Separator />
@@ -149,30 +110,13 @@ export function SettingsDialog() {
                   variant={settings.maxSetCards === preset ? 'default' : 'outline'}
                   size="sm"
                   onClick={() => {
-                    setCustomMaxSet('')
                     setSettings({ maxSetCards: preset })
                   }}
                 >
                   {preset}
                 </Button>
               ))}
-              <Button
-                variant={!isMaxSetPreset ? 'default' : 'outline'}
-                size="sm"
-                onClick={() => setCustomMaxSet(isMaxSetPreset ? '' : String(settings.maxSetCards))}
-              >
-                Custom
-              </Button>
             </div>
-            {(!isMaxSetPreset || customMaxSet !== '') && (
-              <Input
-                type="number"
-                placeholder="Enter max set cards"
-                value={customMaxSet}
-                onChange={(e) => handleCustomMaxSet(e.target.value)}
-                min={1}
-              />
-            )}
           </div>
 
           <Separator />

@@ -19,7 +19,7 @@ export function NavBar() {
           <Link key={to} to={to}>
             {({ isActive }) => (
               <Button variant={isActive ? 'secondary' : 'ghost'} size="icon-lg" title={label}>
-                <Icon />
+                <Icon color={isActive ? '#FA7A00' : 'white'} />
               </Button>
             )}
           </Link>

@@ -65,7 +65,7 @@ function IndexPage() {
 
   return (
     <div className="p-8 flex flex-col gap-12 max-w-2xl mx-auto items-center w-full">
-      <div className="flex gap-8 justify-center items-start">
+      <div className="flex text-orange-400 gap-8 justify-center items-start">
         {dbStats.map(({ label, value }) => (
           <div key={label} className="flex flex-col gap-1 items-center">
             <span className="text-2xl font-bold">{value}</span>
