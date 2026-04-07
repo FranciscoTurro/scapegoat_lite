@@ -3,7 +3,7 @@ import { join } from 'path'
 import { electronApp, optimizer, is } from '@electron-toolkit/utils'
 import icon from '../../resources/icon.png?asset'
 import { initDb } from './handlers/initdb'
-import { getCardById, getCardByName, getCardsByName, getAllCardNames, getAllCardsBasic } from './handlers/cards'
+import { getCardById, getCardByName, getCardsByName, getAllCardNames, getAllCardsBasic, getLastSync } from './handlers/cards'
 import { getAllDecks, createDeck, updateDeck, deleteDeck, getNegatesForDeck, createNegate, deleteNegate } from './handlers/negates'
 import { getAllCombos, createCombo, updateCombo, deleteCombo, getStepsForCombo, addComboStep, deleteComboStep, updateComboStepNote, updateComboStepLink, reorderComboSteps } from './handlers/combos'
 import { syncCards } from './handlers/syncCards'
@@ -62,6 +62,7 @@ app.whenReady().then(async () => {
   ipcMain.handle('get-cards-by-name', (_, name: string) => getCardsByName(name))
   ipcMain.handle('get-all-card-names', () => getAllCardNames())
   ipcMain.handle('get-all-cards-basic', () => getAllCardsBasic())
+  ipcMain.handle('get-last-sync', () => getLastSync())
 
   ipcMain.handle('get-all-decks', () => getAllDecks())
   ipcMain.handle('create-deck', (_, name: string, coverCardId: number | null) => createDeck(name, coverCardId))

@@ -2,7 +2,7 @@ import { useEffect, useState } from 'react'
 import { createRoute, Link } from '@tanstack/react-router'
 import { rootRoute } from '../__root'
 import { Layers, Swords, Ban, Calculator } from 'lucide-react'
-import { useSettings } from '../../context/SettingsContext'
+import icon from '../../assets/icon.png'
 
 const FEATURES = [
   {
@@ -38,13 +38,14 @@ export const indexRoute = createRoute({
 })
 
 function IndexPage() {
-  const { settings } = useSettings()
   const [comboCount, setComboCount] = useState<number | null>(null)
   const [deckCount, setDeckCount] = useState<number | null>(null)
   const [negateCount, setNegateCount] = useState<number | null>(null)
+  const [lastSync, setLastSync] = useState<string | null>(null)
 
   useEffect(() => {
     window.api.getAllCombos().then((combos) => setComboCount(combos.length))
+    window.api.getLastSync().then(setLastSync)
 
     window.api.getAllDecks().then(async (decks) => {
       setDeckCount(decks.length)
@@ -55,7 +56,7 @@ function IndexPage() {
     })
   }, [])
 
-  const lastSyncDisplay = settings.lastSync ? settings.lastSync.split('-').reverse().join('/') : '—'
+  const lastSyncDisplay = lastSync ? lastSync.split('-').reverse().join('/') : '—'
 
   const dbStats = [
     { label: 'Combos saved', value: comboCount === null ? '—' : String(comboCount) },
@@ -64,7 +65,12 @@ function IndexPage() {
   ]
 
   return (
-    <div className="p-8 flex flex-col gap-12 max-w-2xl mx-auto items-center w-full">
+    <div className="p-8 flex flex-col gap-18 max-w-2xl mx-auto items-center w-full">
+      <div className="flex flex-col items-center gap-3">
+        <img src={icon} alt="Scapegoat" className="w-16 h-16" />
+        <h1 className="text-5xl font-bold tracking-tight">Scapegoat</h1>
+      </div>
+
       <div className="flex text-orange-400 gap-8 justify-center items-start">
         {dbStats.map(({ label, value }) => (
           <div key={label} className="flex flex-col gap-1 items-center">

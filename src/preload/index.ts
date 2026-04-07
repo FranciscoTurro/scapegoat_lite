@@ -25,7 +25,8 @@ const api = {
   updateComboStepNote: (id: number, note: string | null) => ipcRenderer.invoke('update-combo-step-note', id, note),
   updateComboStepLink: (id: number, linkComment: string | null) => ipcRenderer.invoke('update-combo-step-link', id, linkComment),
   reorderComboSteps: (orderedIds: number[]) => ipcRenderer.invoke('reorder-combo-steps', JSON.stringify(orderedIds)),
-  syncCards: (startDate: string): Promise<void> => ipcRenderer.invoke('sync-cards', startDate)
+  syncCards: (startDate: string): Promise<void> => ipcRenderer.invoke('sync-cards', startDate),
+  getLastSync: (): Promise<string | null> => ipcRenderer.invoke('get-last-sync')
 }
 
 // Use `contextBridge` APIs to expose Electron APIs to

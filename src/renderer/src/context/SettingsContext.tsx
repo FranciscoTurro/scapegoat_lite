@@ -2,13 +2,12 @@ import { createContext, useContext, useState, useEffect, ReactNode } from 'react
 
 interface Settings {
   startingLP: number
-  lastSync: string | null
   darkMode: boolean
   cardImageSize: 'large' | 'small'
   maxSetCards: number
 }
 
-const DEFAULTS: Settings = { startingLP: 8000, lastSync: null, darkMode: true, cardImageSize: 'large', maxSetCards: 5 }
+const DEFAULTS: Settings = { startingLP: 8000, darkMode: true, cardImageSize: 'large', maxSetCards: 5 }
 const STORAGE_KEY = 'app-settings'
 
 function loadSettings(): Settings {

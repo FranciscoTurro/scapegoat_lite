@@ -40,4 +40,7 @@ export const initDb = async () => {
       imageUrlSmall: card.card_images[0].image_url_small
     }))
   )
+
+  const today = new Date().toISOString().split('T')[0]
+  db.prepare('UPDATE sync_info SET last_sync = ? WHERE id = 1').run(today)
 }

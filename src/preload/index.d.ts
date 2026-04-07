@@ -66,6 +66,7 @@ declare global {
       updateComboStepLink: (id: number, linkComment: string | null) => Promise<void>
       reorderComboSteps: (orderedIds: number[]) => Promise<void>
       syncCards: (startDate: string) => Promise<void>
+      getLastSync: () => Promise<string | null>
     }
   }
 }

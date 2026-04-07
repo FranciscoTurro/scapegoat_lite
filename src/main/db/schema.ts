@@ -47,6 +47,13 @@ export const initSchema = () => {
       note TEXT,
       link_comment TEXT
     );
+
+    CREATE TABLE IF NOT EXISTS sync_info (
+      id INTEGER PRIMARY KEY,
+      last_sync TEXT
+    );
+
+    INSERT OR IGNORE INTO sync_info (id, last_sync) VALUES (1, NULL);
   `)
 
   // Migrations for existing installs

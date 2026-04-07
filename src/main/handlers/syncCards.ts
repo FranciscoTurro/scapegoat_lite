@@ -7,7 +7,10 @@ export const syncCards = async (startDate: string): Promise<void> => {
   const res = await fetch(url)
   const json = await res.json()
 
-  if (!json.data) return // no cards in range (API returns 400 + { error: "..." })
+  if (!json.data) {
+    db.prepare('UPDATE sync_info SET last_sync = ? WHERE id = 1').run(today)
+    return
+  }
 
   const insert = db.prepare(`
     INSERT OR IGNORE INTO cards
@@ -38,4 +41,6 @@ export const syncCards = async (startDate: string): Promise<void> => {
       imageUrlSmall: card.card_images[0].image_url_small
     }))
   )
+
+  db.prepare('UPDATE sync_info SET last_sync = ? WHERE id = 1').run(today)
 }

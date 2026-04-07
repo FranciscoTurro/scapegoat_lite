@@ -12,12 +12,14 @@ export function SettingsDialog() {
   const [open, setOpen] = useState(false)
   const [syncing, setSyncing] = useState(false)
   const [syncError, setSyncError] = useState<string | null>(null)
+  const [lastSync, setLastSync] = useState<string | null>(null)
 
   const MAX_SET_PRESETS = [3, 5] as const
 
   const handleOpen = (val: boolean) => {
     if (val) {
       setSyncError(null)
+      window.api.getLastSync().then(setLastSync)
     }
     setOpen(val)
   }
@@ -26,9 +28,10 @@ export function SettingsDialog() {
     setSyncing(true)
     setSyncError(null)
     try {
-      const startDate = settings.lastSync ?? new Date().toISOString().split('T')[0]
+      const startDate = lastSync ?? new Date().toISOString().split('T')[0]
       await window.api.syncCards(startDate)
-      setSettings({ lastSync: new Date().toISOString().split('T')[0] })
+      const updated = await window.api.getLastSync()
+      setLastSync(updated)
     } catch (e) {
       setSyncError(`Sync failed ${e}`)
     } finally {
@@ -125,8 +128,8 @@ export function SettingsDialog() {
             <span className="text-sm font-medium">Sync Cards</span>
             <div className="flex items-center justify-between">
               <span className="text-xs text-muted-foreground">
-                {settings.lastSync
-                  ? `Last synced: ${settings.lastSync.split('-').reverse().join('/')}`
+                {lastSync
+                  ? `Last synced: ${lastSync.split('-').reverse().join('/')}`
                   : 'Never synced'}
               </span>
               <Button size="sm" variant="outline" onClick={handleSync} disabled={syncing}>

@@ -20,3 +20,8 @@ export const getAllCardNames = (): string[] => {
 export const getAllCardsBasic = (): { name: string; type: string }[] => {
   return db.prepare('SELECT name, type FROM cards ORDER BY name').all() as { name: string; type: string }[]
 }
+
+export const getLastSync = (): string | null => {
+  const row = db.prepare('SELECT last_sync FROM sync_info WHERE id = 1').get() as { last_sync: string | null } | undefined
+  return row?.last_sync ?? null
+}
