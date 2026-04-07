@@ -1,6 +1,7 @@
 import { Link } from '@tanstack/react-router'
-import { Moon, Sun, Settings, Home, Swords, Ban, Calculator, Layers } from 'lucide-react'
+import { Home, Swords, Ban, Calculator, Layers } from 'lucide-react'
 import { Button } from './ui/button'
+import { SettingsDialog } from './SettingsDialog'
 
 const NAV_LINKS = [
   { to: '/', icon: Home, label: 'Home' },
@@ -10,7 +11,7 @@ const NAV_LINKS = [
   { to: '/calculator', icon: Calculator, label: 'Calculator' }
 ] as const
 
-export function NavBar({ dark, toggleDark }: { dark: boolean; toggleDark: () => void }) {
+export function NavBar() {
   return (
     <div className="h-12 shrink-0 flex items-center px-3 border-b border-border bg-background">
       <div className="flex items-center gap-1 flex-1">
@@ -25,17 +26,7 @@ export function NavBar({ dark, toggleDark }: { dark: boolean; toggleDark: () => 
         ))}
       </div>
       <div className="flex items-center gap-1">
-        <Button
-          variant="ghost"
-          size="icon-lg"
-          onClick={toggleDark}
-          title={dark ? 'Light mode' : 'Dark mode'}
-        >
-          {dark ? <Sun /> : <Moon />}
-        </Button>
-        <Button variant="ghost" size="icon-lg" title="Settings">
-          <Settings />
-        </Button>
+        <SettingsDialog />
       </div>
     </div>
   )

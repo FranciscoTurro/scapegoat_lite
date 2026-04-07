@@ -3,12 +3,12 @@ import { createRoute } from '@tanstack/react-router'
 import { rootRoute } from '../__root'
 import { Separator } from '../../components/ui/separator'
 import { useCardSearch } from '../../context/CardSearchContext'
+import { useSettings } from '../../context/SettingsContext'
 import { Card } from '../../types/card'
 import { TrackerSection } from './TrackerSection'
 
 const HAND_KEY = 'rival-hand'
 const SET_KEY = 'rival-set'
-const MAX_SET = 5
 
 function loadFromStorage<T>(key: string, fallback: T): T {
   try {
@@ -27,6 +27,7 @@ export const rivalRoute = createRoute({
 
 function RivalTracker() {
   const { requestCardView } = useCardSearch()
+  const { settings } = useSettings()
   const [hand, setHand] = useState<Card[]>(() => loadFromStorage(HAND_KEY, []))
   const [setCards, setSetCards] = useState<Card[]>(() => loadFromStorage(SET_KEY, []))
 
@@ -44,7 +45,7 @@ function RivalTracker() {
   }
 
   const addToSet = async (name: string) => {
-    if (setCards.length >= MAX_SET) return
+    if (setCards.length >= settings.maxSetCards) return
     const card = (await window.api.getCardByName(name)) as Card | undefined
     if (card) setSetCards((prev) => [...prev, card])
   }
@@ -71,7 +72,7 @@ function RivalTracker() {
         onRemove={(i) => setSetCards((prev) => prev.filter((_, idx) => idx !== i))}
         onCardClick={requestCardView}
         onReset={() => setSetCards([])}
-        maxCards={MAX_SET}
+        maxCards={settings.maxSetCards}
       />
     </div>
   )

@@ -1,16 +1,15 @@
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
 import { createRoute } from '@tanstack/react-router'
 import { rootRoute } from '../__root'
 import { Button } from '../../components/ui/button'
 import { Input } from '../../components/ui/input'
+import { useSettings } from '../../context/SettingsContext'
 
 export const calculatorRoute = createRoute({
   getParentRoute: () => rootRoute,
   path: '/calculator',
   component: CalculatorPage
 })
-
-const STARTING_LP = 8000
 
 function PlayerPanel({
   lp,
@@ -83,7 +82,12 @@ function PlayerPanel({
 }
 
 function CalculatorPage() {
-  const [rivalLP, setRivalLP] = useState(STARTING_LP)
+  const { settings } = useSettings()
+  const [rivalLP, setRivalLP] = useState(() => settings.startingLP)
+
+  useEffect(() => {
+    setRivalLP(settings.startingLP)
+  }, [settings.startingLP])
 
   const applyDamage = (amount: number) => {
     setRivalLP((prev) => {
@@ -107,7 +111,7 @@ function CalculatorPage() {
   }
 
   const reset = () => {
-    setRivalLP(STARTING_LP)
+    setRivalLP(settings.startingLP)
   }
 
   return (

@@ -63,6 +63,7 @@ declare global {
       updateComboStepNote: (id: number, note: string | null) => Promise<void>
       updateComboStepLink: (id: number, linkComment: string | null) => Promise<void>
       reorderComboSteps: (orderedIds: number[]) => Promise<void>
+      syncCards: (startDate: string) => Promise<void>
     }
   }
 }

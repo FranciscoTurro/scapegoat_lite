@@ -1,21 +1,22 @@
-import { useState, useEffect } from 'react'
+import { useEffect } from 'react'
 import { createRootRoute, Outlet } from '@tanstack/react-router'
 import { CardSearchProvider } from '../context/CardSearchContext'
+import { SettingsProvider, useSettings } from '../context/SettingsContext'
 import { CardLookupPanel } from '../components/CardLookupPanel'
 import { NavBar } from '../components/NavBar'
 
 function RootLayout() {
-  const [darkMode, setDarkMode] = useState(true)
+  const { settings } = useSettings()
 
   useEffect(() => {
-    document.documentElement.classList.toggle('dark', darkMode)
-  }, [darkMode])
+    document.documentElement.classList.toggle('dark', settings.darkMode)
+  }, [settings.darkMode])
 
   return (
     <CardSearchProvider>
       <div className="flex h-screen w-screen overflow-hidden">
         <div className="flex-1 flex flex-col overflow-hidden">
-          <NavBar dark={darkMode} toggleDark={() => setDarkMode((d) => !d)} />
+          <NavBar />
           <div className="flex-1 overflow-auto">
             <Outlet />
           </div>
@@ -28,4 +29,10 @@ function RootLayout() {
   )
 }
 
-export const rootRoute = createRootRoute({ component: RootLayout })
+export const rootRoute = createRootRoute({
+  component: () => (
+    <SettingsProvider>
+      <RootLayout />
+    </SettingsProvider>
+  )
+})

@@ -6,6 +6,7 @@ import { initDb } from './handlers/initdb'
 import { getCardById, getCardByName, getCardsByName, getAllCardNames, getAllCardsBasic } from './handlers/cards'
 import { getAllDecks, createDeck, deleteDeck, getNegatesForDeck, createNegate, deleteNegate } from './handlers/negates'
 import { getAllCombos, createCombo, deleteCombo, getStepsForCombo, addComboStep, deleteComboStep, updateComboStepNote, updateComboStepLink, reorderComboSteps } from './handlers/combos'
+import { syncCards } from './handlers/syncCards'
 
 function createWindow(): void {
   // Create the browser window.
@@ -78,6 +79,8 @@ app.whenReady().then(async () => {
   ipcMain.handle('update-combo-step-note', (_, id: number, note: string | null) => updateComboStepNote(id, note))
   ipcMain.handle('update-combo-step-link', (_, id: number, linkComment: string | null) => updateComboStepLink(id, linkComment))
   ipcMain.handle('reorder-combo-steps', (_, orderedIdsJson: string) => reorderComboSteps(JSON.parse(orderedIdsJson)))
+
+  ipcMain.handle('sync-cards', (_, startDate: string) => syncCards(startDate))
 
   createWindow()
 

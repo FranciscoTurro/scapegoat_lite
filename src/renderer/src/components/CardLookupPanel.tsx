@@ -1,10 +1,12 @@
 import { useState, useEffect, useRef } from 'react'
 import { CardNameInput } from './CardNameInput'
 import { useCardSearch } from '../context/CardSearchContext'
+import { useSettings } from '../context/SettingsContext'
 import type { Card } from '../types/card'
 
 export function CardLookupPanel() {
   const { registerCardViewer } = useCardSearch()
+  const { settings } = useSettings()
   const [displayCard, setDisplayCard] = useState<Card | null>(null)
 
   const showCardRef = useRef<(card: Card) => Promise<void>>(null)
@@ -62,7 +64,7 @@ export function CardLookupPanel() {
         <img
           src={card != null ? card.image_url : ''}
           alt={card != null ? card.name : ''}
-          className="rounded-md w-full object-contain"
+          className={`rounded-md object-contain ${settings.cardImageSize === 'small' ? 'w-1/2' : 'w-full'}`}
         />
       </div>
     </div>
