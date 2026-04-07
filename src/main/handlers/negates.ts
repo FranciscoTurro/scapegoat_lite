@@ -40,6 +40,10 @@ export const createDeck = (name: string, coverCardId: number | null): number => 
   return result.lastInsertRowid as number
 }
 
+export const updateDeck = (id: number, name: string, coverCardId: number | null): void => {
+  db.prepare(`UPDATE decks SET name = ?, cover_card_id = ? WHERE id = ?`).run(name, coverCardId, id)
+}
+
 export const deleteDeck = (id: number): void => {
   db.prepare(`DELETE FROM negates WHERE target_deck_id = ?`).run(id)
   db.prepare(`DELETE FROM decks WHERE id = ?`).run(id)

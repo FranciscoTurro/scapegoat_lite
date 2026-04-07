@@ -60,6 +60,7 @@ function CombosPage() {
               combo={combo}
               onClick={() => navigate({ to: '/combos/$comboId', params: { comboId: String(combo.id) } })}
               onDelete={() => handleDelete(combo.id)}
+              onUpdated={(updated) => setCombos((prev) => prev.map((c) => c.id === updated.id ? updated : c).sort((a, b) => a.name.localeCompare(b.name)))}
             />
           ))}
         </div>

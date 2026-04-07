@@ -50,12 +50,14 @@ declare global {
       getAllCardsBasic: () => Promise<{ name: string; type: string }[]>
       getAllDecks: () => Promise<DeckRow[]>
       createDeck: (name: string, coverCardId: number | null) => Promise<number>
+      updateDeck: (id: number, name: string, coverCardId: number | null) => Promise<void>
       deleteDeck: (id: number) => Promise<void>
       getNegatesForDeck: (deckId: number) => Promise<NegateRow[]>
       createNegate: (targetDeckId: number, negateCardId: number, targetCardId: number, note?: string) => Promise<number>
       deleteNegate: (id: number) => Promise<void>
       getAllCombos: () => Promise<ComboRow[]>
       createCombo: (name: string, coverCardId: number | null) => Promise<number>
+      updateCombo: (id: number, name: string, coverCardId: number | null) => Promise<void>
       deleteCombo: (id: number) => Promise<void>
       getStepsForCombo: (comboId: number) => Promise<ComboStepRow[]>
       addComboStep: (comboId: number, cardId: number, note: string | null, linkComment: string | null, position: number) => Promise<number>

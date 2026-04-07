@@ -4,8 +4,8 @@ import { electronApp, optimizer, is } from '@electron-toolkit/utils'
 import icon from '../../resources/icon.png?asset'
 import { initDb } from './handlers/initdb'
 import { getCardById, getCardByName, getCardsByName, getAllCardNames, getAllCardsBasic } from './handlers/cards'
-import { getAllDecks, createDeck, deleteDeck, getNegatesForDeck, createNegate, deleteNegate } from './handlers/negates'
-import { getAllCombos, createCombo, deleteCombo, getStepsForCombo, addComboStep, deleteComboStep, updateComboStepNote, updateComboStepLink, reorderComboSteps } from './handlers/combos'
+import { getAllDecks, createDeck, updateDeck, deleteDeck, getNegatesForDeck, createNegate, deleteNegate } from './handlers/negates'
+import { getAllCombos, createCombo, updateCombo, deleteCombo, getStepsForCombo, addComboStep, deleteComboStep, updateComboStepNote, updateComboStepLink, reorderComboSteps } from './handlers/combos'
 import { syncCards } from './handlers/syncCards'
 
 function createWindow(): void {
@@ -65,6 +65,7 @@ app.whenReady().then(async () => {
 
   ipcMain.handle('get-all-decks', () => getAllDecks())
   ipcMain.handle('create-deck', (_, name: string, coverCardId: number | null) => createDeck(name, coverCardId))
+  ipcMain.handle('update-deck', (_, id: number, name: string, coverCardId: number | null) => updateDeck(id, name, coverCardId))
   ipcMain.handle('delete-deck', (_, id: number) => deleteDeck(id))
   ipcMain.handle('get-negates-for-deck', (_, deckId: number) => getNegatesForDeck(deckId))
   ipcMain.handle('create-negate', (_, targetDeckId: number, negateCardId: number, targetCardId: number, note?: string) => createNegate(targetDeckId, negateCardId, targetCardId, note))
@@ -72,6 +73,7 @@ app.whenReady().then(async () => {
 
   ipcMain.handle('get-all-combos', () => getAllCombos())
   ipcMain.handle('create-combo', (_, name: string, coverCardId: number | null) => createCombo(name, coverCardId))
+  ipcMain.handle('update-combo', (_, id: number, name: string, coverCardId: number | null) => updateCombo(id, name, coverCardId))
   ipcMain.handle('delete-combo', (_, id: number) => deleteCombo(id))
   ipcMain.handle('get-steps-for-combo', (_, comboId: number) => getStepsForCombo(comboId))
   ipcMain.handle('add-combo-step', (_, comboId: number, cardId: number, note: string | null, linkComment: string | null, position: number) => addComboStep(comboId, cardId, note, linkComment, position))

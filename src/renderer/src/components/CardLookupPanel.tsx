@@ -61,11 +61,14 @@ export function CardLookupPanel() {
             </div>
           </div>
         )}
-        <img
-          src={card != null ? card.image_url : ''}
-          alt={card != null ? card.name : ''}
-          className={`rounded-md object-contain ${settings.cardImageSize === 'small' ? 'w-1/2' : 'w-full'}`}
-        />
+        {card && (
+          <img
+            src={card.image_url}
+            alt={card.name}
+            onError={(e) => { e.currentTarget.style.display = 'none' }}
+            className={`rounded-md object-contain ${settings.cardImageSize === 'small' ? 'w-1/2' : 'w-full'}`}
+          />
+        )}
       </div>
     </div>
   )

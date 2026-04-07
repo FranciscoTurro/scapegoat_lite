@@ -52,6 +52,7 @@ function NegatesPage() {
               deck={deck}
               onClick={() => navigate({ to: '/negates/$deckId', params: { deckId: String(deck.id) } })}
               onDelete={() => handleDeckDeleted(deck.id)}
+              onUpdated={(updated) => setDecks((prev) => prev.map((d) => d.id === updated.id ? updated : d).sort((a, b) => a.name.localeCompare(b.name)))}
             />
           ))}
         </div>

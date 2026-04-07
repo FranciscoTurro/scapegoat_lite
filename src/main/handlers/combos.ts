@@ -39,6 +39,10 @@ export const createCombo = (name: string, coverCardId: number | null): number =>
   return result.lastInsertRowid as number
 }
 
+export const updateCombo = (id: number, name: string, coverCardId: number | null): void => {
+  db.prepare(`UPDATE combos SET name = ?, cover_card_id = ? WHERE id = ?`).run(name, coverCardId, id)
+}
+
 export const deleteCombo = (id: number): void => {
   db.prepare(`DELETE FROM combo_steps WHERE combo_id = ?`).run(id)
   db.prepare(`DELETE FROM combos WHERE id = ?`).run(id)
