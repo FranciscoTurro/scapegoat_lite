@@ -6,6 +6,7 @@ import {
   ChevronRight,
   Trash2,
   Pencil,
+  X,
   Check
 } from 'lucide-react'
 import { createRoute, useParams, useNavigate } from '@tanstack/react-router'
