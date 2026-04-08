@@ -44,11 +44,16 @@ export function ComboCard({
   const [coverCardName, setCoverCardName] = useState<string | null>(null)
   const [submitting, setSubmitting] = useState(false)
 
-  const handleEditOpen = (val: boolean) => {
+  const handleEditOpen = async (val: boolean) => {
     if (val) {
       setName(combo.name)
       setCoverCardId(combo.cover_card_id)
-      setCoverCardName(null)
+      if (combo.cover_card_id) {
+        const card = (await window.api.getCardById(combo.cover_card_id)) as Card | undefined
+        setCoverCardName(card?.name ?? null)
+      } else {
+        setCoverCardName(null)
+      }
     }
     setEditOpen(val)
   }
@@ -66,16 +71,21 @@ export function ComboCard({
 
   const handleCoverCardSelect = async (cardName: string) => {
     const card = (await window.api.getCardByName(cardName)) as Card | undefined
-    if (card) { setCoverCardId(card.id); setCoverCardName(card.name) }
+    if (card) {
+      setCoverCardId(card.id)
+      setCoverCardName(card.name)
+    }
   }
 
-  const clearCover = () => { setCoverCardId(null); setCoverCardName(null) }
+  const clearCover = () => {
+    setCoverCardId(null)
+    setCoverCardName(null)
+  }
 
-  const coverLabel = coverCardName ?? (combo.cover_card_id ? combo.name : null)
+  const coverLabel = coverCardName
 
   return (
     <div className="relative group flex flex-col items-center gap-2 rounded-lg border border-foreground p-3 hover:border-primary transition-all w-48">
-
       {/* Delete */}
       <AlertDialog>
         <AlertDialogTrigger asChild>
@@ -153,7 +163,9 @@ export function ComboCard({
 
           <DialogFooter>
             <DialogClose asChild>
-              <Button variant="ghost" size="lg">Cancel</Button>
+              <Button variant="ghost" size="lg">
+                Cancel
+              </Button>
             </DialogClose>
             <Button size="lg" onClick={handleSave} disabled={!name.trim() || submitting}>
               Save
@@ -162,7 +174,10 @@ export function ComboCard({
         </DialogContent>
       </Dialog>
 
-      <div onClick={onClick} className="flex flex-col items-center gap-2 cursor-pointer hover:bg-accent/30 rounded w-full transition-colors">
+      <div
+        onClick={onClick}
+        className="flex flex-col items-center gap-2 cursor-pointer hover:bg-accent/30 rounded w-full transition-colors"
+      >
         {combo.cover_card_image_url_small ? (
           <img src={combo.cover_card_image_url_small} alt={combo.name} className="w-36 rounded" />
         ) : (

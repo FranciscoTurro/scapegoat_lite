@@ -44,11 +44,16 @@ export function DeckCard({
   const [coverCardName, setCoverCardName] = useState<string | null>(null)
   const [submitting, setSubmitting] = useState(false)
 
-  const handleEditOpen = (val: boolean) => {
+  const handleEditOpen = async (val: boolean) => {
     if (val) {
       setName(deck.name)
       setCoverCardId(deck.cover_card_id)
-      setCoverCardName(null)
+      if (deck.cover_card_id) {
+        const card = (await window.api.getCardById(deck.cover_card_id)) as Card | undefined
+        setCoverCardName(card?.name ?? null)
+      } else {
+        setCoverCardName(null)
+      }
     }
     setEditOpen(val)
   }
@@ -71,7 +76,7 @@ export function DeckCard({
 
   const clearCover = () => { setCoverCardId(null); setCoverCardName(null) }
 
-  const coverLabel = coverCardName ?? (deck.cover_card_id ? deck.name : null)
+  const coverLabel = coverCardName
 
   return (
     <div className="relative group flex flex-col items-center gap-2 rounded-lg border border-foreground p-3 hover:border-primary transition-all w-48">
